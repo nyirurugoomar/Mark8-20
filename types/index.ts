@@ -19,14 +19,14 @@ export interface Product{
     
 }
 
-interface Category {
+export interface Category {
     id: string;
     name: string;
     description: string;
     createdAt: string;
     updatedAt: string;
   }
-  interface User {
+  export interface User {
     id: string;
     email: string;
     phoneNumber: string;

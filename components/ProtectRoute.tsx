@@ -1,33 +1,28 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaSpinner } from 'react-icons/fa';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaSpinner } from "react-icons/fa";
 
-const ProtectRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ProtectRoute: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      // Replace this with your actual authentication check logic
-      const token = localStorage.getItem('token');
-
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
       if (token) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
+        router.replace("/Login"); // Redirect immediately if not authenticated
       }
     };
 
     checkAuth();
-  }, []);
-
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      router.push('/Login');
-    } 
-  }, [isAuthenticated, router]);
+  }, [router]);
 
   if (isAuthenticated === null) {
     return (

@@ -10,12 +10,13 @@ import { IoMdMore } from "react-icons/io";
 import { NewsLetter } from "@/components";
 import { Product } from "@/types";
 import { FaSpinner } from 'react-icons/fa';
+import Link from "next/link";
 
-// Define a mock for related products
+
 const relatedProducts = [
   { photo: '/image1.jpg' },
   { photo: '/image2.jpg' },
-  // Add more images as needed
+  
 ];
 
 function Page() {
@@ -45,7 +46,7 @@ function Page() {
             },
           });
           setProduct(response.data.data);
-          setSelectedImage(response.data.data.thumbnail[0]); // Set initial selected image
+          setSelectedImage(response.data.data.thumbnail[0]); 
           setLoading(false);
         } catch (error) {
           setError(error as Error);
@@ -68,12 +69,12 @@ function Page() {
   };
 
   const handleThumbnailClick = (image: string) => {
-    setImageLoading(true); // Set image loading state to true
-    setSelectedImage(image); // Update the selected image
+    setImageLoading(true); 
+    setSelectedImage(image); 
   };
 
   const handleImageLoad = () => {
-    setImageLoading(false); // Set image loading state to false when image is loaded
+    setImageLoading(false); 
   };
 
   if (loading) return (
@@ -92,7 +93,7 @@ function Page() {
       <div className="md:ml-20 hidden md:block">
         <code className="flex items-center">
           <FaArrowLeftLong className="text-primary mr-4" width={24} height={24} />
-          Home / Product / Vector / <span className="text-primary md:ml-2">{product.name}</span>
+          <Link href='/'> Home </Link>  / Product / Vector / <span className="text-primary md:ml-2">{product.name}</span>
         </code>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:mx-20 md:mt-10 mt-10">

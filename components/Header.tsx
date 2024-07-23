@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signoutClient } from "@/utils/signoutHandler";
+import { TbSmartHome } from "react-icons/tb";
 
 function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -30,7 +31,7 @@ function Header() {
           <Link href='/'><Image src="/Logo_header.png" width={151} height={40} alt="logo" /></Link>
           <Link href='/'>
             <div className="flex gap-2 items-center">
-              <Image src="/home.svg" alt="icon_home" width={16} height={16} />
+              <TbSmartHome size={16} className="text-[#495D69]" />
               <ul className="font-dm-sans font-[700] text-[12px] leading-[15.62px]">
                 Home
               </ul>
@@ -48,13 +49,13 @@ function Header() {
           
         </div>
         <div className="flex items-center md:gap-6 gap-2">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center cursor-pointer">
             <Image src="/cart02.svg" alt="icon_cart" width={16} height={16} />
             <ul className="font-dm-sans font-[700] text-[12px] leading-[15.62px] hidden md:block">
               My Cart
             </ul>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center cursor-auto">
             <Image src="/favourite.svg" alt="icon_favourite" width={16} height={16} />
             <ul className="font-dm-sans font-[700] text-[12px] leading-[15.62px] hidden md:block">
               Saved
