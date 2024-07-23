@@ -31,7 +31,8 @@ function Header() {
           <Link href='/'><Image src="/Logo_header.png" width={151} height={40} alt="logo" /></Link>
           <Link href='/'>
             <div className="flex gap-2 items-center">
-              <TbSmartHome size={16} className="text-[#495D69]" />
+              <Image src="/home.svg" alt="icon_home" width={16} height={16} />
+              
               <ul className="font-dm-sans font-[700] text-[12px] leading-[15.62px]">
                 Home
               </ul>
