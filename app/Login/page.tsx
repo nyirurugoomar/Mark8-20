@@ -138,7 +138,11 @@ function Page() {
                 </button>
               </div>
               <div className=" justify-end text-end flex">
-                <p className="body md:hidden block ">Create an account <span className="font-bold cursor-pointer underline">Here</span></p>
+                <p className="body md:hidden block ">Create an account
+                <Link href='/signup'>
+                <span className="font-bold cursor-pointer underline"> Here</span>
+                </Link>
+                </p>
               </div>
               {error && <p className="text-red-600">{error}</p>}
             </div>

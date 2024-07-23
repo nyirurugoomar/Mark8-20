@@ -9,6 +9,7 @@ import { CiHeart } from "react-icons/ci";
 import { IoMdMore } from "react-icons/io";
 import { NewsLetter } from "@/components";
 import { Product } from "@/types";
+import { FaSpinner } from 'react-icons/fa';
 
 // Define a mock for related products
 const relatedProducts = [
@@ -26,6 +27,8 @@ function Page() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // State for the selected image
+  const [imageLoading, setImageLoading] = useState(true); // State for image loading
 
   const getAccessToken = () => {
     return localStorage.getItem("accessToken");
@@ -42,6 +45,7 @@ function Page() {
             },
           });
           setProduct(response.data.data);
+          setSelectedImage(response.data.data.thumbnail[0]); // Set initial selected image
           setLoading(false);
         } catch (error) {
           setError(error as Error);
@@ -63,7 +67,21 @@ function Page() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  const handleThumbnailClick = (image: string) => {
+    setImageLoading(true); // Set image loading state to true
+    setSelectedImage(image); // Update the selected image
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false); // Set image loading state to false when image is loaded
+  };
+
+  if (loading) return (
+    <div className="flex items-center justify-center h-screen">
+      <FaSpinner className="animate-spin text-4xl text-primary" />
+    </div>
+  );
+
   if (error) return <div>Error loading product: {error.message}</div>;
   if (!product) return <div>No product found</div>;
 
@@ -71,22 +89,32 @@ function Page() {
 
   return (
     <div className="md:w-full md:mx-auto">
-      <div className="md:ml-20 hidden md:block ">
+      <div className="md:ml-20 hidden md:block">
         <code className="flex items-center">
           <FaArrowLeftLong className="text-primary mr-4" width={24} height={24} />
           Home / Product / Vector / <span className="text-primary md:ml-2">{product.name}</span>
         </code>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:mx-20 md:mt-10 mt-10">
-        <div className="border-[1px] border-accent md:w-[632px] rounded-[8px]">
-          {thumbnails.length > 0 ? (
-            <Image
-              src={thumbnails[0]}
-              width={782}
-              height={574}
-              alt={product.name}
-              className="opacity"
-            />
+        <div className="border-[1px] border-accent md:w-[632px] rounded-[16px]">
+          {selectedImage ? (
+            <div className="relative">
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+                  <FaSpinner className="animate-spin text-4xl text-primary" />
+                </div>
+              )}
+              <Image
+                src={selectedImage}
+                width={782}
+                height={574}
+                alt={product.name}
+                style={{ width: '782px', height: '574px', objectFit: 'cover' }}
+                className="opacity rounded-[16px]"
+                onLoad={handleImageLoad} // Set image load handler
+                onError={() => setImageLoading(false)} // Hide spinner if image fails to load
+              />
+            </div>
           ) : (
             <div className="w-full h-[574px] bg-gray-200 flex items-center justify-center">
               <span>No Image Available</span>
@@ -96,11 +124,12 @@ function Page() {
             {thumbnails.map((item, index) => (
               <Image
                 key={index}
-                className="rounded-[8px]"
+                className="rounded-[8px] cursor-pointer"
                 src={item}
                 width={60}
                 height={60}
                 alt={`Image ${index + 1}`}
+                onClick={() => handleThumbnailClick(item)} // Set selected image on click
               />
             ))}
           </div>
@@ -122,7 +151,7 @@ function Page() {
             </div>
           </div>
           <div className="space-y-2 p-6">
-            <h1 className="title max-w-[180px] ">
+            <h1 className="title max-w-[180px]">
               {product.name}
             </h1>
             <h2 className="text-[16px] font-[700] leading-[20.83px] font-dm-sans text-primary flex gap-2">
@@ -229,7 +258,7 @@ function Page() {
           ))}
         </div>
       </div>
-      <div className=" mt-20">
+      <div className="mt-20">
         <NewsLetter />
       </div>
     </div>

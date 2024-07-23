@@ -1,5 +1,6 @@
 
 
+
 export interface Product{
     
     id?:string,
@@ -70,12 +71,19 @@ export interface Review{
 }
 
 export interface Store {
+    
+    products?: Product[]; // Array of Product
+    storeProduct: string;
+    storeName: string;
+    storeImage: string;
     id: string;
     name: string;
+    price?:Product,
     description: string;
     address: string;
     image: string;
     createdAt: string;
+    test?:Category;
     manager: {
       id: string;
       email: string;
@@ -85,5 +93,6 @@ export interface Store {
       createdAt: string;
       shippingAddress: string;
     };
-}
+  }
+  
 

@@ -4,6 +4,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { FaPhone } from "react-icons/fa6";
+import { FaRegUser } from "react-icons/fa";
+
 import Link from "next/link";
 
 function Page() {
@@ -54,7 +57,7 @@ function Page() {
   return (
     <div className="md:w-full w-full md:h-screen h-full bg-bg-image bg-cover bg-[#E3E3E3] md:flex items-center justify-center flex-col">
       <div className="grid grid-cols-1 lg:grid-cols-2 md:w-[800px] h-[100px]  md:h-[581px] bg-white md:rounded-[16px]   md:mb-4">
-        <div className="p-6 space-y-24 bg-[#F4F5F6] rounded-l-[16px] hidden md:block">
+        <div className="p-6 space-y-40 bg-[#F4F5F6] rounded-l-[16px] hidden md:block">
           <Image src="/mark8.png" alt="logo" width={50} height={50} />
           <div>
             <h1 className="font-dm-sans font-[900] text-[24px] leading-[31.25px] text-black">
@@ -83,19 +86,13 @@ function Page() {
           <form action="" onSubmit={handleSubmit} className="md:mt-10 md:space-y-2 space-y-10">
           <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-[10px] font-[600] font-dm-sans leading-[13.02px] text-[#0C0D0D] mb-2"
               >
                 FirstName:
               </label>
               <div className="relative">
-                <Image
-                  src="/user.svg"
-                  width={16}
-                  height={16}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                  alt="mail-icon"
-                />
+                <FaRegUser className="text-primary absolute left-3 top-1/2 transform -translate-y-1/2  " />
                 <input
                   type="firstname"
                   value={firstName}
@@ -107,19 +104,21 @@ function Page() {
             </div>
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-[10px] font-[600] font-dm-sans leading-[13.02px] text-[#0C0D0D] mb-2"
               >
                 LastName:
               </label>
               <div className="relative">
-                <Image
+                {/* <Image
                   src="/user.svg"
                   width={16}
                   height={16}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                   alt="mail-icon"
-                />
+                /> */}
+                                <FaRegUser className="text-primary absolute left-3 top-1/2 transform -translate-y-1/2  " />
+
                 <input
                   type="lastname"
                   value={lastName}
@@ -188,24 +187,25 @@ function Page() {
                   />
                 </button>
               </div>
+              
               <div className=" justify-end text-end flex">
-                <p className="body md:hidden block ">Create an account <span className="font-bold cursor-pointer underline">Here</span></p>
+                <p className="body md:hidden block ">Have an account 
+                <Link href='/Login'>
+                  <span className="font-bold cursor-pointer underline"> Here</span>
+                </Link>
+                </p>
               </div>
+              
               <div>
               <label
-                htmlFor="email"
+                htmlFor="phone"
                 className="block text-[10px] font-[600] font-dm-sans leading-[13.02px] text-[#0C0D0D] mb-2"
               >
                 Phone Number:
               </label>
               <div className="relative">
-                <Image
-                  src="/user.svg"
-                  width={16}
-                  height={16}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                  alt="mail-icon"
-                />
+                
+                <FaPhone size={16} className="text-primary absolute left-3 top-1/2 transform -translate-y-1/2 "/>
                 <input
                   type="text"
                   value={phoneNumber}
