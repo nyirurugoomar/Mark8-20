@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-dm-sans font-light text-[14px] leading-[24px] text-[#495D69];
+}
+
+.title {
+  @apply font-dm-sans font-bold text-lg leading-5;
+}
+.subtitle{
+  @apply font-dm-sans font-[500] text-[14px] leading-[18.23px] text-[#1C2834]
+}
