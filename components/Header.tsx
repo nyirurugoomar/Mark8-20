@@ -1,13 +1,26 @@
-"use client"
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signoutClient } from "@/utils/signoutHandler";
 
 function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const router = useRouter();
 
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      signoutClient();
+      router.push('/Login'); // Redirect to the login page after logout
+    } catch (error) {
+      console.error("Failed to sign out", error);
+    }
   };
 
   return (
@@ -92,7 +105,10 @@ function Header() {
                   Settings
                 </li>
                 </div>
-                <li className="flex items-center gap-2 mb-2 font-dm-sans font-[400] text-[14px] leading-[18.23px] cursor-pointer">
+                <li 
+                  className="flex items-center gap-2 mb-2 font-dm-sans font-[400] text-[14px] leading-[18.23px] cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <Image src="/logout-08.svg" alt="icon_logout" width={16} height={16} />
                   Logout
                 </li>
