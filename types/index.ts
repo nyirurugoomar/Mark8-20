@@ -18,29 +18,26 @@ export interface Product{
     
 }
 
-export interface Category{
-    id?:string,
-    name:string,
-    createdAt:string,
-    updatedAt:string,
-    createdBy?:User
-    updatedBy?:User
-}
-
-export interface User{
-    id?:string,
-    email:string,
-    phoneNumber:string,
-    firstName:string,
-    lastName:string,
-    isActive:boolean,
-    createdAt:string,
-    updatedAt:string,
-    shippingAddress:string,
-    stripeAccountId:string,
-    currency:string,
-    roles:Role
-}
+interface Category {
+    id: string;
+    name: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+  interface User {
+    id: string;
+    email: string;
+    phoneNumber: string;
+    firstName: string;
+    lastName: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    shippingAddress: string;
+    stripeAccountId: string | null;
+    currency: string;
+  }
 
 export interface Role{
     id:string,
@@ -89,3 +86,4 @@ export interface Store {
       shippingAddress: string;
     };
 }
+

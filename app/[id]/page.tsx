@@ -2,14 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import Image from "next/image";
-import { photo } from "@/constants";
+import axios from 'axios';
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { CiHeart } from "react-icons/ci";
 import { IoMdMore } from "react-icons/io";
 import { NewsLetter } from "@/components";
-import axios from 'axios';
-import { Product } from "@/types";
+
+// Define a mock for related products
+const relatedProducts = [
+  { photo: '/image1.jpg' },
+  { photo: '/image2.jpg' },
+  // Add more images as needed
+];
 
 function Page() {
   const router = useRouter();
@@ -21,17 +26,29 @@ function Page() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const getAccessToken = () => {
+    return localStorage.getItem("accessToken");
+  };
+
   useEffect(() => {
     if (id) {
-      axios.get(`https://api.mark8.awesomity.rw/products/${id}`)
-        .then((response) => {
-          setProduct(response.data);
+      const fetchProduct = async () => {
+        try {
+          const token = getAccessToken();
+          const response = await axios.get(`https://api.mark8.awesomity.rw/products/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setProduct(response.data.data);
           setLoading(false);
-        })
-        .catch((error) => {
-          setError(error);
+        } catch (error) {
+          setError(error as Error);
           setLoading(false);
-        });
+        }
+      };
+
+      fetchProduct();
     }
   }, [id]);
 
@@ -58,20 +75,26 @@ function Page() {
         </code>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:mx-20 md:mt-10">
-        <div className="border-[1px] border-accent md:w-[632px] rounded-[8px] ">
-          <Image
-            src={product.thumbnail[1]}
-            width={782}
-            height={574}
-            alt={product.name}
-            className="opacity"
-          />
+        <div className="border-[1px] border-accent md:w-[632px] rounded-[8px]">
+          {product.thumbnail.length > 0 ? (
+            <Image
+              src={product.thumbnail[0]}
+              width={782}
+              height={574}
+              alt={product.name}
+              className="opacity"
+            />
+          ) : (
+            <div className="w-full h-[574px] bg-gray-200 flex items-center justify-center">
+              <span>No Image Available</span>
+            </div>
+          )}
           <div className="flex gap-4 md:mt-4 p-2">
-            {photo.map((item, index) => (
+            {product.thumbnail.map((item, index) => (
               <Image
                 key={index}
                 className="rounded-[8px]"
-                src={item.photo}
+                src={item}
                 width={60}
                 height={60}
                 alt={`Image ${index + 1}`}
@@ -100,8 +123,8 @@ function Page() {
               {product.name}
             </h1>
             <h2 className="text-[16px] font-[700] leading-[20.83px] font-dm-sans text-primary flex gap-2">
-              {product.unitPrice} {product.createdBy?.currency}
-              <span className="text-accent line-through "> {product.createdBy?.currency}</span>
+              {product.unitPrice} {product.createdBy.currency}
+              <span className="text-accent line-through "> {product.createdBy.currency}</span>
             </h2>
             <h1 className="text-[16px] font-dm-sans font-[700] leading-[20.83px]">
               Description
@@ -120,14 +143,14 @@ function Page() {
               </span>
             </div>
             <div className="flex items-center gap-4 mt-4">
-              <div className="flex items-center  rounded-md">
+              <div className="flex items-center rounded-md">
                 <button
                   className="px-4 py-2 text-lg border rounded-[8px]"
                   onClick={handleDecrease}
                 >
                   -
                 </button>
-                <span className="px-[30px]  py-[8px] mx-2 bg-[#0C0C0D0A] rounded-[8px]">
+                <span className="px-[30px] py-[8px] mx-2 bg-[#0C0C0D0A] rounded-[8px]">
                   {quantity}
                 </span>
                 <button
@@ -137,7 +160,7 @@ function Page() {
                   +
                 </button>
               </div>
-              <button className=" flex gap-2 bg-primary text-[#1C2834] font-[800] text-[14px] leading-[18.23px] py-2 px-4 rounded-md">
+              <button className="flex gap-2 bg-primary text-[#1C2834] font-[800] text-[14px] leading-[18.23px] py-2 px-4 rounded-md">
                 <Image
                   src="/shopping-cart.svg"
                   alt="icon-filter"
@@ -148,7 +171,7 @@ function Page() {
               </button>
             </div>
           </div>
-          <div className="border-t-[1px]  border-accent p-4 mt-10">
+          <div className="border-t-[1px] border-accent p-4 mt-10">
             <div className="flex justify-between items-center">
               <h1 className="text-[16px] font-dm-sans font-[700] leading-[20.83px] gap-2 flex items-center">
                 Store Info
@@ -159,69 +182,53 @@ function Page() {
                   height={30}
                   alt=""
                 />
-                <span className="subtitle">Awesome Shop 1</span>
+                <span className="subtitle">{product.createdBy.shippingAddress}{" "}/ Tel: {product.createdBy.phoneNumber} </span>
               </h1>
-              <button className=" flex gap-2 bg-primary text-[#1C2834] font-[800] text-[14px] leading-[18.23px] py-2 px-4 rounded-md">
+              <button className="flex gap-2 bg-primary text-[#1C2834] font-[800] text-[14px] leading-[18.23px] py-2 px-4 rounded-md">
                 <Image
                   src="/shopping-cart.svg"
                   alt="icon-filter"
                   width={16}
                   height={16}
                 />
-                Add to Cart
+                View Store
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div className=" mx-20 md:mt-10">
-        <h1 className="text-[24px] text-[#1C2834] font-dm-sans font-[900] leading-[31.25px]">
-          You might also like
+      <div className="md:mx-20 mt-10">
+        <h1 className="text-[#141C24] text-[24px] font-dm-sans font-[800] leading-[29px] mb-6">
+          Related Products
         </h1>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 md:mt-10">
-           {photo.map((photos,index) =>(
-            <div key={index} className="border-[1px] border-accent rounded-[16px] md:w-full md:h-[324px] cursor-pointer">
-            <Image
-              src={photos.photo}
-              className="w-full rounded-t-[16px] object-cover"
-              height={256}
-              width={370}
-              alt="Product Image"
-            />
-            <div className="justify-between flex p-[20px] items-center">
-              <div className="space-y-2">
-                <h1 className="title max-w-[150px] truncate whitespace-nowrap">
-                  Product1
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 md:mt-10">
+          {relatedProducts.map((item, index) => (
+            <div
+              key={index}
+              className="bg-[#FFFFFF] border-[1px] border-[#EAECF0] cursor-pointer"
+            >
+              <Image
+                src={item.photo}
+                width={285}
+                height={194}
+                alt={`Related Product ${index + 1}`}
+                className="opacity"
+              />
+              <div className="p-4">
+                <h1 className="text-[#141C24] font-dm-sans font-[700] leading-[24px] text-[20px]">
+                  Classic Black Swimsuit
                 </h1>
-                <h2 className="title text-primary">
-                  9,000 Rwf{" "}
-                  <span className="text-accent line-through ">12,000 Rwf</span>
-                </h2>
-              </div>
-              <div className="flex gap-2">
-                <button className="md:h-[48px] h-[40px] w-[40px] md:w-[48px] border-[1.5px] border-accent p-[8px] rounded-[8px] flex items-center justify-center">
-                  <Image
-                    src="/shopping-cart.svg"
-                    alt="icon-filter"
-                    width={16}
-                    height={16}
-                  />
-                </button>
-                <button className="md:h-[48px] md:w-[48px] border-[1.5px] border-accent p-[8px] rounded-[8px] flex items-center justify-center">
-                  <Image
-                    src="/like.svg"
-                    alt="icon-filter"
-                    width={16}
-                    height={16}
-                  />
-                </button>
+                <p className="font-dm-sans font-[700] text-[14px] leading-[18.23px] text-primary">
+                  16,000 Rwf
+                </p>
               </div>
             </div>
-          </div>
-           ))}
+          ))}
         </div>
       </div>
-      <NewsLetter/>
+      <div className=" mt-20">
+        <NewsLetter />
+      </div>
     </div>
   );
 }
