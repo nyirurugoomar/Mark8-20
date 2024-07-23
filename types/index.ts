@@ -72,21 +72,20 @@ export interface Review{
 
 }
 
-export interface Store{
-    id?:string,
-    name:string,
-    description:string,
-    address:string,
-    image:string,
-    createdAt:Date,
-}
-
-export interface Manager{
-    id?:string,
-    email:string,
-    phoneNumber:string,
-    firstName:string,
-    lastName:string,
-    createdAt:Date,
-    shippingAddress:string
+export interface Store {
+    id: string;
+    name: string;
+    description: string;
+    address: string;
+    image: string;
+    createdAt: string;
+    manager: {
+      id: string;
+      email: string;
+      phoneNumber: string;
+      firstName: string;
+      lastName: string;
+      createdAt: string;
+      shippingAddress: string;
+    };
 }
