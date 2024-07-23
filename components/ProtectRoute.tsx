@@ -26,9 +26,7 @@ const ProtectRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   useEffect(() => {
     if (isAuthenticated === false) {
       router.push('/Login');
-    } else if (isAuthenticated) {
-      router.push('/');
-    }
+    } 
   }, [isAuthenticated, router]);
 
   if (isAuthenticated === null) {

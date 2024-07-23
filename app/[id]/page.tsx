@@ -8,6 +8,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { CiHeart } from "react-icons/ci";
 import { IoMdMore } from "react-icons/io";
 import { NewsLetter } from "@/components";
+import { Product } from "@/types";
 
 // Define a mock for related products
 const relatedProducts = [
@@ -66,19 +67,21 @@ function Page() {
   if (error) return <div>Error loading product: {error.message}</div>;
   if (!product) return <div>No product found</div>;
 
+  const thumbnails = Array.isArray(product.thumbnail) ? product.thumbnail : [];
+
   return (
     <div className="md:w-full md:mx-auto">
-      <div className="md:ml-20">
+      <div className="md:ml-20 hidden md:block ">
         <code className="flex items-center">
           <FaArrowLeftLong className="text-primary mr-4" width={24} height={24} />
           Home / Product / Vector / <span className="text-primary md:ml-2">{product.name}</span>
         </code>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:mx-20 md:mt-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:mx-20 md:mt-10 mt-10">
         <div className="border-[1px] border-accent md:w-[632px] rounded-[8px]">
-          {product.thumbnail.length > 0 ? (
+          {thumbnails.length > 0 ? (
             <Image
-              src={product.thumbnail[0]}
+              src={thumbnails[0]}
               width={782}
               height={574}
               alt={product.name}
@@ -90,7 +93,7 @@ function Page() {
             </div>
           )}
           <div className="flex gap-4 md:mt-4 p-2">
-            {product.thumbnail.map((item, index) => (
+            {thumbnails.map((item, index) => (
               <Image
                 key={index}
                 className="rounded-[8px]"
@@ -119,12 +122,12 @@ function Page() {
             </div>
           </div>
           <div className="space-y-2 p-6">
-            <h1 className="title max-w-[150px] truncate whitespace-nowrap">
+            <h1 className="title max-w-[180px] ">
               {product.name}
             </h1>
             <h2 className="text-[16px] font-[700] leading-[20.83px] font-dm-sans text-primary flex gap-2">
-              {product.unitPrice} {product.createdBy.currency}
-              <span className="text-accent line-through "> {product.createdBy.currency}</span>
+              {product.unitPrice} {product.createdBy?.currency}
+              <span className="text-accent line-through "> {product.createdBy?.currency}</span>
             </h2>
             <h1 className="text-[16px] font-dm-sans font-[700] leading-[20.83px]">
               Description
@@ -182,7 +185,7 @@ function Page() {
                   height={30}
                   alt=""
                 />
-                <span className="subtitle">{product.createdBy.shippingAddress}{" "}/ Tel: {product.createdBy.phoneNumber} </span>
+                <span className="subtitle">{product.createdBy?.shippingAddress}{" "}/ Tel: {product.createdBy?.phoneNumber} </span>
               </h1>
               <button className="flex gap-2 bg-primary text-[#1C2834] font-[800] text-[14px] leading-[18.23px] py-2 px-4 rounded-md">
                 <Image

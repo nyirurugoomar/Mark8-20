@@ -19,19 +19,16 @@ export default function RootLayout({
 }) {
   const pathname = usePathname(); // Get the current path
 
-  const showHeaderAndFooter = pathname !== "/Login"; 
+  const showHeaderAndFooter = !["/Login", "/signup"].includes(pathname);
+
   return (
     <html lang="en">
       <body className={dmSans.className}>
         <ProtectRoute>
-        {showHeaderAndFooter && <Header />}
-         
-         {children}
-
-         {showHeaderAndFooter && <Footer />}
+          {showHeaderAndFooter && <Header />}
+          {children}
+          {showHeaderAndFooter && <Footer />}
         </ProtectRoute>
-          
-        
       </body>
     </html>
   );
