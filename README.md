@@ -21,10 +21,10 @@
 
 ## <a name="features">🔋 Features</a>
 
-👉 **Home Page**: Showcases a visually appealing display of Products and Stores fetched from  API.
-👉 **TypeScript Types**: Utilize TypeScript to provide robust typing for enhanced code quality and better development.
-👉 **Responsive Website Design**: The website is designed to be visually pleasing and responsive, ensuring an optimal user experience across various devices.
-👉 **SignUp/SignIn**: user will be able login and registered
+👉 **Home Page**: Showcases a visually appealing display of Products and Stores fetched from  API.<br>
+👉 **TypeScript Types**: Utilize TypeScript to provide robust typing for enhanced code quality and better development.<br>
+👉 **Responsive Website Design**: The website is designed to be visually pleasing and responsive, ensuring an optimal user experience across various devices.<br>
+👉 **SignUp/SignIn**: user will be able login and registered.<br>
 
 
 
