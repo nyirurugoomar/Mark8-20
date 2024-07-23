@@ -109,7 +109,7 @@ function StoreItem() {
                   >
                     <Image
                       src={store.image}
-                      className="w-full rounded-t-[16px] object-cover"
+                      className="w-full rounded-t-[16px] object-cover lg:w[300px] lg:h-[250px]"
                       height={250}
                       width={250}
                       alt={store.name}
